@@ -1,0 +1,112 @@
+# main.py
+from fastapi import FastAPI
+from pydantic import BaseModel
+import joblib
+import numpy as np
+import json
+from typing import Optional
+from fastapi.middleware.cors import CORSMiddleware
+
+
+
+app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
+# Load model and ideal conditions
+model = joblib.load("model.pkl")
+with open("ideal_conditions.json", "r") as f:
+    ideal_data = json.load(f)
+
+# Define request schema
+class SensorData(BaseModel):
+    temperature: float
+    nitrogen: float
+    phosphorus: float
+    potassium: float
+    humidity: float
+    ph: float
+    rainfall: float
+@app.post("/predict_crop")
+def predict_crop(data: SensorData):
+    print("👉 Incoming data:", data.dict())
+    
+    input_data = np.array([[data.temperature, data.nitrogen, data.phosphorus,
+                            data.potassium, data.humidity, data.ph, data.rainfall]])
+
+    try:
+        prediction = model.predict(input_data)[0]
+        print("✅ Predicted crop:", prediction)
+    except Exception as e:
+        print("❌ Model prediction failed:", e)
+        raise
+
+    ideal = ideal_data.get(prediction, {})
+    suggestions = {}
+
+    for key in ideal:
+        key_lower = key.lower()
+        try:
+            actual = getattr(data, key_lower)
+        except AttributeError:
+            suggestions[key_lower] = f"⚠ Missing value for {key_lower}"
+            continue
+
+        ideal_val = ideal[key]
+        if abs(actual - ideal_val) < 1:
+            suggestions[key_lower] = "Optimal"
+        elif actual < ideal_val:
+            suggestions[key_lower] = f"Increase by {round(ideal_val - actual, 2)}"
+        else:
+            suggestions[key_lower] = f"Decrease by {round(actual - ideal_val, 2)}"
+
+    return {
+        "predicted_crop": prediction,
+        "ideal_conditions": ideal,
+        "suggestions": suggestions
+    }
+
+class PartialSensorData(BaseModel):
+    crop: str
+    temperature: Optional[float]
+    nitrogen: Optional[float]
+    phosphorus: Optional[float]
+    potassium: Optional[float]
+    humidity: Optional[float]
+    rainfall: Optional[float]
+    ph: Optional[float] = None 
+@app.post("/complete_conditions")
+def complete_conditions(data: PartialSensorData):
+    crop = data.crop.strip()
+
+    if crop not in ideal_data:
+        return {"error": f"Crop '{crop}' not found in ideal conditions database."}
+
+    ideal = ideal_data[crop]
+    suggestions = {}
+
+    for key, ideal_val in ideal.items():
+        key_lower = key.lower()
+        actual = getattr(data, key_lower, None)
+
+        if actual is None:
+            suggestions[key_lower] = f"⚠ Missing. Ideal is {ideal_val}"
+        elif abs(actual - ideal_val) < 1:
+            suggestions[key_lower] = "✅ Optimal"
+        elif actual < ideal_val:
+            suggestions[key_lower] = f"🔼 Increase by {round(ideal_val - actual, 2)}"
+        else:
+            suggestions[key_lower] = f"🔽 Decrease by {round(actual - ideal_val, 2)}"
+
+    return {
+        "crop": crop,
+        "ideal_conditions": ideal,
+        "suggestions": suggestions
+    }

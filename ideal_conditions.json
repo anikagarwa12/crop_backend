@@ -1,0 +1,200 @@
+{
+  "Apple": {
+    "Temperature": 22.63,
+    "Nitrogen": 20.8,
+    "Phosphorus": 134.22,
+    "Potassium": 199.89,
+    "Humidity": 92.33,
+    "pH_Value": 5.93,
+    "Rainfall": 112.65
+  },
+  "Banana": {
+    "Temperature": 27.38,
+    "Nitrogen": 100.23,
+    "Phosphorus": 82.01,
+    "Potassium": 50.05,
+    "Humidity": 80.36,
+    "pH_Value": 5.98,
+    "Rainfall": 104.63
+  },
+  "Blackgram": {
+    "Temperature": 29.97,
+    "Nitrogen": 40.02,
+    "Phosphorus": 67.47,
+    "Potassium": 19.24,
+    "Humidity": 65.12,
+    "pH_Value": 7.13,
+    "Rainfall": 67.88
+  },
+  "ChickPea": {
+    "Temperature": 18.87,
+    "Nitrogen": 40.09,
+    "Phosphorus": 67.79,
+    "Potassium": 79.92,
+    "Humidity": 16.86,
+    "pH_Value": 7.34,
+    "Rainfall": 80.06
+  },
+  "Coconut": {
+    "Temperature": 27.41,
+    "Nitrogen": 21.98,
+    "Phosphorus": 16.93,
+    "Potassium": 30.59,
+    "Humidity": 94.84,
+    "pH_Value": 5.98,
+    "Rainfall": 175.69
+  },
+  "Coffee": {
+    "Temperature": 25.54,
+    "Nitrogen": 101.2,
+    "Phosphorus": 28.74,
+    "Potassium": 29.94,
+    "Humidity": 58.87,
+    "pH_Value": 6.79,
+    "Rainfall": 158.07
+  },
+  "Cotton": {
+    "Temperature": 23.99,
+    "Nitrogen": 117.77,
+    "Phosphorus": 46.24,
+    "Potassium": 19.56,
+    "Humidity": 79.84,
+    "pH_Value": 6.91,
+    "Rainfall": 80.4
+  },
+  "Grapes": {
+    "Temperature": 23.85,
+    "Nitrogen": 23.18,
+    "Phosphorus": 132.53,
+    "Potassium": 200.11,
+    "Humidity": 81.88,
+    "pH_Value": 6.03,
+    "Rainfall": 69.61
+  },
+  "Jute": {
+    "Temperature": 24.96,
+    "Nitrogen": 78.4,
+    "Phosphorus": 46.86,
+    "Potassium": 39.99,
+    "Humidity": 79.64,
+    "pH_Value": 6.73,
+    "Rainfall": 174.79
+  },
+  "KidneyBeans": {
+    "Temperature": 20.12,
+    "Nitrogen": 20.75,
+    "Phosphorus": 67.54,
+    "Potassium": 20.05,
+    "Humidity": 21.61,
+    "pH_Value": 5.75,
+    "Rainfall": 105.92
+  },
+  "Lentil": {
+    "Temperature": 24.51,
+    "Nitrogen": 18.77,
+    "Phosphorus": 68.36,
+    "Potassium": 19.41,
+    "Humidity": 64.8,
+    "pH_Value": 6.93,
+    "Rainfall": 45.68
+  },
+  "Maize": {
+    "Temperature": 22.39,
+    "Nitrogen": 77.76,
+    "Phosphorus": 48.44,
+    "Potassium": 19.79,
+    "Humidity": 65.09,
+    "pH_Value": 6.25,
+    "Rainfall": 84.77
+  },
+  "Mango": {
+    "Temperature": 31.21,
+    "Nitrogen": 20.07,
+    "Phosphorus": 27.18,
+    "Potassium": 29.92,
+    "Humidity": 50.16,
+    "pH_Value": 5.77,
+    "Rainfall": 94.7
+  },
+  "MothBeans": {
+    "Temperature": 28.19,
+    "Nitrogen": 21.44,
+    "Phosphorus": 48.01,
+    "Potassium": 20.23,
+    "Humidity": 53.16,
+    "pH_Value": 6.83,
+    "Rainfall": 51.2
+  },
+  "MungBean": {
+    "Temperature": 28.53,
+    "Nitrogen": 20.99,
+    "Phosphorus": 47.28,
+    "Potassium": 19.87,
+    "Humidity": 85.5,
+    "pH_Value": 6.72,
+    "Rainfall": 48.4
+  },
+  "Muskmelon": {
+    "Temperature": 28.66,
+    "Nitrogen": 100.32,
+    "Phosphorus": 17.72,
+    "Potassium": 50.08,
+    "Humidity": 92.34,
+    "pH_Value": 6.36,
+    "Rainfall": 24.69
+  },
+  "Orange": {
+    "Temperature": 22.77,
+    "Nitrogen": 19.58,
+    "Phosphorus": 16.55,
+    "Potassium": 10.01,
+    "Humidity": 92.17,
+    "pH_Value": 7.02,
+    "Rainfall": 110.47
+  },
+  "Papaya": {
+    "Temperature": 33.72,
+    "Nitrogen": 49.88,
+    "Phosphorus": 59.05,
+    "Potassium": 50.04,
+    "Humidity": 92.4,
+    "pH_Value": 6.74,
+    "Rainfall": 142.63
+  },
+  "PigeonPeas": {
+    "Temperature": 27.74,
+    "Nitrogen": 20.73,
+    "Phosphorus": 67.73,
+    "Potassium": 20.29,
+    "Humidity": 48.06,
+    "pH_Value": 5.79,
+    "Rainfall": 149.46
+  },
+  "Pomegranate": {
+    "Temperature": 21.84,
+    "Nitrogen": 18.87,
+    "Phosphorus": 18.75,
+    "Potassium": 40.21,
+    "Humidity": 90.13,
+    "pH_Value": 6.43,
+    "Rainfall": 107.53
+  },
+  "Rice": {
+    "Temperature": 23.69,
+    "Nitrogen": 79.89,
+    "Phosphorus": 47.58,
+    "Potassium": 39.87,
+    "Humidity": 82.27,
+    "pH_Value": 6.43,
+    "Rainfall": 236.18
+  },
+  "Watermelon": {
+    "Temperature": 25.59,
+    "Nitrogen": 99.42,
+    "Phosphorus": 17.0,
+    "Potassium": 50.22,
+    "Humidity": 85.16,
+    "pH_Value": 6.5,
+    "Rainfall": 50.79
+  }
+}
