@@ -57,15 +57,15 @@ def predict_crop(data: SensorData):
             # Handle pH_Value consistently
             if key == "pH_Value":
                 actual = getattr(data, 'pH_Value', None)
-                key_lower = 'pH_Value'
+                key_lower = 'pH_Value'  # Use consistent casing in suggestions
             else:
                 actual = getattr(data, key_lower)
         except AttributeError:
-            suggestions[key_lower] = f"⚠ Missing value for {key_lower}"
+            suggestions[key_lower] = f"Missing value for {key_lower}"
             continue
 
         if actual is None:
-            suggestions[key_lower] = f"⚠ Missing value for {key_lower}"
+            suggestions[key_lower] = f"Missing. Ideal is {ideal[key]}"
             continue
 
         ideal_val = ideal[key]
@@ -102,17 +102,17 @@ def complete_conditions(data: PartialSensorData):
     suggestions = {}
 
     for key, ideal_val in ideal.items():
-        key_lower = key.lower()
-        actual = getattr(data, key_lower, None)
+        # Use the original key from ideal_conditions to maintain case
+        actual = getattr(data, key, None)
 
         if actual is None:
-            suggestions[key_lower] = f"⚠ Missing. Ideal is {ideal_val}"
+            suggestions[key] = f"Missing. Ideal is {ideal_val}"
         elif abs(actual - ideal_val) < 1:
-            suggestions[key_lower] = "✅ Optimal"
+            suggestions[key] = "Optimal"
         elif actual < ideal_val:
-            suggestions[key_lower] = f"🔼 Increase by {round(ideal_val - actual, 2)}"
+            suggestions[key] = f"Increase by {round(ideal_val - actual, 2)}"
         else:
-            suggestions[key_lower] = f"🔽 Decrease by {round(actual - ideal_val, 2)}"
+            suggestions[key] = f"Decrease by {round(actual - ideal_val, 2)}"
 
     return {
         "crop": crop,
