@@ -102,8 +102,14 @@ def complete_conditions(data: PartialSensorData):
     suggestions = {}
 
     for key, ideal_val in ideal.items():
-        # Use the original key from ideal_conditions to maintain case
-        actual = getattr(data, key, None)
+        # Convert both keys to lowercase for comparison
+        key_lower = key.lower()
+        # Get the value from data using case-insensitive matching
+        actual = None
+        for data_key, data_val in data.dict().items():
+            if data_key.lower() == key_lower:
+                actual = data_val
+                break
 
         if actual is None:
             suggestions[key] = f"Missing. Ideal is {ideal_val}"
