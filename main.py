@@ -32,14 +32,14 @@ class SensorData(BaseModel):
     phosphorus: float
     potassium: float
     humidity: float
-    ph: float
+    pH_Value: float
     rainfall: float
 @app.post("/predict_crop")
 def predict_crop(data: SensorData):
     print("👉 Incoming data:", data.dict())
     
     input_data = np.array([[data.temperature, data.nitrogen, data.phosphorus,
-                            data.potassium, data.humidity, data.ph, data.rainfall]])
+                            data.potassium, data.humidity, data.pH_Value, data.rainfall]])
 
     try:
         prediction = model.predict(input_data)[0]
@@ -54,8 +54,17 @@ def predict_crop(data: SensorData):
     for key in ideal:
         key_lower = key.lower()
         try:
-            actual = getattr(data, key_lower)
+            # Handle pH_Value consistently
+            if key == "pH_Value":
+                actual = getattr(data, 'pH_Value', None)
+                key_lower = 'pH_Value'
+            else:
+                actual = getattr(data, key_lower)
         except AttributeError:
+            suggestions[key_lower] = f"⚠ Missing value for {key_lower}"
+            continue
+
+        if actual is None:
             suggestions[key_lower] = f"⚠ Missing value for {key_lower}"
             continue
 
@@ -81,7 +90,7 @@ class PartialSensorData(BaseModel):
     potassium: Optional[float]
     humidity: Optional[float]
     rainfall: Optional[float]
-    ph: Optional[float] = None 
+    pH_Value: Optional[float] = None
 @app.post("/complete_conditions")
 def complete_conditions(data: PartialSensorData):
     crop = data.crop.strip()
