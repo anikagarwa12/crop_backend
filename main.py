@@ -38,6 +38,17 @@ class SensorData(BaseModel):
 def predict_crop(data: SensorData):
     print("👉 Incoming data:", data.dict())
     
+    # Store sensor data for response
+    sensor_data = {
+        "humidity": data.humidity,
+        "nitrogen": data.nitrogen,
+        "pH_Value": data.pH_Value,
+        "phosphorus": data.phosphorus,
+        "potassium": data.potassium,
+        "rainfall": data.rainfall,
+        "temperature": data.temperature
+    }
+    
     input_data = np.array([[data.temperature, data.nitrogen, data.phosphorus,
                             data.potassium, data.humidity, data.pH_Value, data.rainfall]])
 
@@ -49,36 +60,37 @@ def predict_crop(data: SensorData):
         raise
 
     ideal = ideal_data.get(prediction, {})
+    # Reorder ideal conditions to match required order
+    ordered_ideal = {
+        "Humidity": ideal["Humidity"],
+        "Nitrogen": ideal["Nitrogen"],
+        "Phosphorus": ideal["Phosphorus"],
+        "Potassium": ideal["Potassium"],
+        "Rainfall": ideal["Rainfall"],
+        "Temperature": ideal["Temperature"],
+        "pH_Value": ideal["pH_Value"]
+    }
+    
     suggestions = {}
-
-    for key in ideal:
-        key_lower = key.lower()
-        try:
-            # Handle pH_Value consistently
-            if key == "pH_Value":
-                actual = getattr(data, 'pH_Value', None)
-                key_lower = 'pH_Value'  # Use consistent casing in suggestions
-            else:
-                actual = getattr(data, key_lower)
-        except AttributeError:
-            suggestions[key_lower] = f"Missing value for {key_lower}"
-            continue
+    # Process suggestions in the required order
+    for key in ["humidity", "nitrogen", "ph_value", "phosphorus", "potassium", "rainfall", "temperature"]:
+        ideal_key = key.capitalize() if key != "ph_value" else "pH_Value"
+        ideal_val = ideal[ideal_key]
+        actual = sensor_data[ideal_key] if ideal_key == "pH_Value" else sensor_data[key]
 
         if actual is None:
-            suggestions[key_lower] = f"Missing. Ideal is {ideal[key]}"
-            continue
-
-        ideal_val = ideal[key]
-        if abs(actual - ideal_val) < 1:
-            suggestions[key_lower] = "Optimal"
+            suggestions[key] = f"Missing value for {key}"
+        elif abs(actual - ideal_val) < 1:
+            suggestions[key] = "Optimal"
         elif actual < ideal_val:
-            suggestions[key_lower] = f"Increase by {round(ideal_val - actual, 2)}"
+            suggestions[key] = f"Increase by {round(ideal_val - actual, 2)}"
         else:
-            suggestions[key_lower] = f"Decrease by {round(actual - ideal_val, 2)}"
+            suggestions[key] = f"Decrease by {round(actual - ideal_val, 2)}"
 
     return {
+        "ideal_conditions": ordered_ideal,
         "predicted_crop": prediction,
-        "ideal_conditions": ideal,
+        "sensor_data": sensor_data,
         "suggestions": suggestions
     }
 
