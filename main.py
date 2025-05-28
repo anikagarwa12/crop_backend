@@ -137,3 +137,36 @@ def complete_conditions(data: PartialSensorData):
         "ideal_conditions": ideal,
         "suggestions": suggestions
     }
+
+@app.get("/crop_data")
+def get_crop_data():
+    return {
+        "predicted_crop": "PigeonPeas",
+        "ideal_conditions": {
+            "Temperature": 27.74,
+            "Nitrogen": 20.73,
+            "Phosphorus": 67.73,
+            "Potassium": 20.29,
+            "Humidity": 48.06,
+            "pH_Value": 5.79,
+            "Rainfall": 149.46
+        },
+        "sensor_data": {
+            "temperature": 35.0,
+            "nitrogen": 10.0,
+            "phosphorus": 42.0,
+            "potassium": 53.0,
+            "humidity": 60.0,
+            "pH_Value": 6.5,
+            "rainfall": 103.0
+        },
+        "suggestions": {
+            "temperature": "Decrease by 7.26",
+            "nitrogen": "Increase by 10.73",
+            "phosphorus": "Increase by 25.73",
+            "potassium": "Decrease by 32.71",
+            "humidity": "Decrease by 11.94",
+            "ph_value": "Optimal",
+            "rainfall": "Increase by 46.46"
+        }
+    }
